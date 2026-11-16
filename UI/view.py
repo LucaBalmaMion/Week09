@@ -1,3 +1,5 @@
+from pydoc import text
+
 import flet as ft
 
 class View:
@@ -14,12 +16,11 @@ class View:
 
     def load_interface(self):
         self.dd_serate = ft.Dropdown(
-            label='Numero di serate', width=210,
-            on_change=self.controller.handle_statistiche
+            label='Numero di serate', width=210
         )
-        self.dd_serate.options.append(ft.dropdown.Option(6, 'Sei'))
-        self.dd_serate.options.append(ft.dropdown.Option(9, 'Nove'))
-        self.dd_serate.options.append(ft.dropdown.Option(12, 'Dodici'))
+        self.dd_serate.options.append(ft.DropdownOption(key = 6,text = 'Sei'))
+        self.dd_serate.options.append(ft.DropdownOption(key = 9, text ='Nove'))
+        self.dd_serate.options.append(ft.DropdownOption(key = 12, text = 'Dodici'))
 
 
         self.risultati = ft.ListView(expand=1, spacing=8, padding=16)
@@ -27,8 +28,8 @@ class View:
             ft.Text('Programma del cineclub', size=24, color='blue'),
             ft.Row([
                 self.dd_serate,
-                ft.ElevatedButton('Statistiche per genere', on_click=self.controller.handle_statistiche),
-                ft.ElevatedButton('Programma ottimo', on_click=self.controller.handle_programma),
+                ft.Button(content = 'Statistiche per genere', on_click=self.controller.handle_statistiche),
+                ft.Button('Programma ottimo', on_click=self.controller.handle_programma),
             ], alignment=ft.MainAxisAlignment.CENTER),
             self.risultati,
         )
@@ -40,4 +41,4 @@ class View:
         self.page.update()
 
     def avviso(self, messaggio):
-        self.page.open(ft.AlertDialog(title=ft.Text(messaggio)))
+        self.page.show_dialog(ft.AlertDialog(title=ft.Text(messaggio)))

@@ -3,19 +3,40 @@ from model.film import Film
 
 class Dao:
     @staticmethod
-    def get_all_film():
-        """Query di esempio, non utilizzata dalle funzionalità dell'esercizio."""
+    def get_statistiche(n):
+        cnx = DBConnect.get_connection()
+        try:
+            cursor = cnx.cursor()
+            try:
+                cursor.execute('''SELECT genere, COUNT(*) as numero, SUM(somma_voti ) / SUM(numero_voti ) as media
+                                  FROM film
+                                  WHERE serata <= %s 
+                                  GROUP BY genere ''',(n,))
+
+                result = []
+                for r in cursor:
+                    result.append(r)
+                return result
+
+            finally:
+                cursor.close()
+        finally:
+            cnx.close()
+
+    def get_film(n):
         cnx = DBConnect.get_connection()
         try:
             cursor = cnx.cursor(dictionary=True)
             try:
-                cursor.execute('''SELECT id, titolo, genere, serata,
-                                         numero_voti, somma_voti
-                                  FROM film ORDER BY id''')
+                cursor.execute('''SELECT *
+                                  FROM film 
+                                  WHERE serata <= %s 
+                                  ORDER BY serata''', (n,))
 
                 result = []
                 for r in cursor:
-                    film = Film(r['id'], r['titolo'], r['genere'], r['serata'], r['numero_voti'], float(r['somma_voti']))
+                    film = Film(r['id'], r['titolo'], r['genere'], r['serata'], r['numero_voti'],
+                                float(r['somma_voti']))
                     result.append(film)
                 return result
 

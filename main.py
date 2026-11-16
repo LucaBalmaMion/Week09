@@ -10,5 +10,5 @@ def main(page: ft.Page):
     view.set_controller(controller)
     view.load_interface()
 
-
-ft.app(target=main)
+if __name__ == "__main__":
+    ft.run(main)
