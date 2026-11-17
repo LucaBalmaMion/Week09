@@ -20,4 +20,8 @@ class Controller:
 
 
     def handle_programma(self, e):
-        pass
+        self._model.trova_programma_ottimo(int(self._view.dd_serate.value))
+        if self._model.miglior_programma is not None:
+            self._view.mostra(self._model.miglior_programma)
+        else:
+            self._view.mostra(['Errore non è stato trovato nessun programma'])

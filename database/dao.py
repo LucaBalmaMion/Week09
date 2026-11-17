@@ -2,7 +2,6 @@ from database.DB_connect import DBConnect
 from model.film import Film
 
 class Dao:
-    @staticmethod
     def get_statistiche(n):
         cnx = DBConnect.get_connection()
         try:
